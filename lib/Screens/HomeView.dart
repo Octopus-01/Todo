@@ -1,27 +1,29 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:lottie/lottie.dart';
+import 'package:todo1/Screens/component/HomeAppBar.dart';
 import 'package:todo1/Screens/widget/task_widget.dart';
 import 'package:todo1/extention/Space_exs.dart';
 import 'package:todo1/utils/AppColors.dart';
 import 'package:todo1/utils/String.dart';
 
 class HomeView extends StatefulWidget{
-  HomeView({Key? key}) : super(key: key);
+  const HomeView({super.key});
 
   @override
   State<HomeView> createState() => _HomeViewState();
 }
 
 class _HomeViewState extends State<HomeView> {
-  final List<int> testing = [1,2,3];
+  GlobalKey<SliderDrawerState> _sliderDrawerKey = GlobalKey<SliderDrawerState>();
+  final List<int> testing = [];
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
-        backgroundColor: Colors.white,
-        floatingActionButton:
-        GestureDetector(
+      appBar: PreferredSize(preferredSize: Size.fromHeight(130), child: Homeappbar()),
+        floatingActionButton: GestureDetector(
           onTap: (){
             // on tap functionality goes here
           },
@@ -41,50 +43,56 @@ class _HomeViewState extends State<HomeView> {
             ),
           ),
         ),
-        body: SafeArea(child:
-        SizedBox(
-          height: double.infinity,
-          width: double.infinity,
-          child: Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: 100,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 30,
-                        width: 30,
-                        child: CircularProgressIndicator(
-                          value: 1/3,
-                          backgroundColor: Colors.grey,
-                          valueColor: AlwaysStoppedAnimation(Colors.blue),),
-                        ),
-                      25.w,
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(AppString.mainTitle, style: textTheme.displayLarge,),
-                          3.h,
-                          Text("1 Of 3 Task")
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                Divider(
-                  thickness: 2,
-                  indent: 100,
-                ),
+        body: SafeArea(
+          child: buildBody(textTheme)
+        )
+    );
+  }
 
-                SizedBox(
-                  width: double.infinity,
-                  height: 700,
-                  child:testing.isNotEmpty? ListView.builder(scrollDirection: Axis.vertical,
-                      itemCount: testing.length,
-                      itemBuilder: (context,index){
+  Widget buildBody(TextTheme textTheme){
+    return SizedBox(
+      height: double.infinity,
+      width: double.infinity,
+      child: Column(
+          children: [
+            SizedBox(
+              width: double.infinity,
+              height: 100,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: CircularProgressIndicator(
+                      value: 1/3,
+                      backgroundColor: Colors.grey,
+                      valueColor: AlwaysStoppedAnimation(Colors.blue),),
+                  ),
+                  25.w,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(AppString.mainTitle, style: textTheme.displayLarge,),
+                      3.h,
+                      Text("1 Of 3 Task")
+                    ],
+                  )
+                ],
+              ),
+            ),
+            Divider(
+              thickness: 2,
+              indent: 100,
+            ),
+
+            SizedBox(
+              width: double.infinity,
+              height: 650,
+              child: testing.isNotEmpty? ListView.builder(scrollDirection: Axis.vertical,
+                  itemCount: testing.length,
+                  itemBuilder: (context,index){
                     return Dismissible(
                         direction: DismissDirection.horizontal,
                         onDismissed: (_){
@@ -98,32 +106,31 @@ class _HomeViewState extends State<HomeView> {
                           ],
                         ),
                         key: Key(index.toString()),
-                    child: TaskWidget());
+                        child: TaskWidget());
                   }): Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      FadeIn(
-                        child: SizedBox(
-                          height: 200,
-                          width: 200,
-                          child: Lottie.asset(
-                            'assets/lottie/1.json',
-                            animate: testing.isNotEmpty ? false : true,
-                          )
-                        ),
-                      ),
-                      FadeInUp(
-                        child: Text(AppString.doneAllTask),
-                      )
-                    ],
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  FadeIn(
+                    child: SizedBox(
+                        height: 200,
+                        width: 200,
+                        child: Lottie.asset(
+                          'assets/lottie/1.json',
+                          animate: testing.isNotEmpty ? false : true,
+                        )
+                    ),
                   ),
-                )
-              ]
-          ),
-        ),
-        )
+                  FadeInUp(
+                    child: Text(AppString.doneAllTask),
+                  )
+                ],
+              ),
+            )
+          ]
+      ),
     );
   }
+
 
 }

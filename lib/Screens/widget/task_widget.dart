@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:todo1/utils/AppColors.dart';
 
 class TaskWidget extends StatefulWidget{
-  TaskWidget({Key? key}) : super(key: key);
+  const TaskWidget({super.key});
 
   @override
   State<TaskWidget> createState() => _TaskWidgetState();
